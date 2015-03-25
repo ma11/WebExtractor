@@ -7,10 +7,10 @@ You also can read everything.
 
 ## Summary
 
-    1, Generalities
-    2, Features
-    3, Coding Style
-    4, How to use
+    1. Generalities
+    2. Features
+    3. Coding Style
+    4. How to use
 
 
 ## I) Generalities
@@ -23,7 +23,7 @@ The present project propose a tool to download webpages from these kinf of websi
 
 ## II) Features
 
-### IIA) Existing features
+### A) Existing features
 
 * Print N last posts
 * Print N random posts
@@ -40,15 +40,12 @@ The available websites so on are:
     * http://pebkac.fr
 
 
-### IIB) Features that could be cool to have
+### B) Features that could be cool to have
 
-For the moment, the tool is mainly working on the same way as the website does: if there is a latest post page, then the tool can print the latest post,
-    if there is a random page, then the tool can print random posts,... etc
-It could be cool to have features totally disconnected from website behavior, like printing posts that contain a certain expression, or posts that are related to an event
-    or posted at a certain date.
+For the moment, the tool is mainly working on the same way as the website does: if there is a latest post page, then the tool can print the latest post, if there is a random page, then the tool can print random posts,... etc
+It could be cool to have features totally disconnected from website behavior, like printing posts that contain a certain expression, or posts that are related to an event or posted at a certain date.
 
-Moreover, the project could introduce more intelligency: it could be cool to save last posts read for every website, and have an option (or a default behavior) that 
-    consists in printing only new unseen posts.
+Moreover, the project could introduce more intelligency: it could be cool to save last posts read for every website, and have an option (or a default behavior) that consists in printing only new unseen posts.
 
 To have a summerize, features that are cool but not yet implemented are:
     * Save last seen posts and print only new unseen posts
@@ -61,17 +58,16 @@ To have a summerize, features that are cool but not yet implemented are:
 ##III) Coding Style
 
 This program is python-one-file-only. Everything is described into one single file. Hence, if the user wants a very specific behavior, he has to go into the code.
-It could be a good idea to change this, specially for the definition of html parsers: the user could define in a config file the tags used for extracting
-    data post, or ID post,... So that the maintainer doesn't have to code a big python script containing all textual-blog-like website.
+It could be a good idea to change this, specially for the definition of html parsers: the user could define in a config file the tags used for extracting data post, or ID post,... So that the maintainer doesn't have to code a big python script containing all textual-blog-like website.
 Only one person wrote the code. So the code is given as-it-is, without specific defined coding style.
 
 
 ##IV) How to use
 
-###IV_A) Use of Software
+###A) Use of Software
 
 Basicaly, you can read the help by:
-```>> blogPrint --help```
+`blogPrint --help`
 
 And it will print what you need to know.
 
@@ -79,14 +75,16 @@ Basically, you can use the software without any option, and it will (should) pri
 You can change the behavior by using options: see >>blogPrint --help
 
 If there is an error:
-    1, Check you internet connection
-    2, Check you powered your computer
-    3, Check you correctly plug the keyboard
-    4, Too bad... Send email to AUTHORS
+    1. Check you internet connection
+    2. Check you powered your computer
+    3. Check you correctly plug the keyboard
+    4. Too bad... Send email to AUTHORS
 
 
-###IV_B) Generating documentation
+###B) Generating documentation
 
 You can generate documentation using:
 
-```>> make doxygen-doc```
+```bash
+make doxygen-doc
+```
