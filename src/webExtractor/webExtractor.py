@@ -127,6 +127,33 @@ class htmlParserVdm(myParser):
         if self.itemFound and tag=='p':
             self.itemFound=False
 
+## @class htmlParserBashOrg
+# @brief Class for http://bash.org/ parsing
+# @details This class describe a parser for http://bash.org/ website. It extends methods from myParser class and therefore from HTMLParser class
+# @author ma11
+class htmlParserBashOrg(myParser):
+    ## @brief Class constructor
+    # @details Call for inheritance constructor and define a boolean variable to know if the parser is inside a \<span\>\</span\>.
+    #          In this specific website, a \<span\> occure while reading data inside an item.
+    # @param[in] self The object pointer
+    def __init__(self):
+        myParser.__init__(self)
+
+    ## @brief Method to handle starting tags
+    #  @details This method is inherited from HTMLParser class and implement the process for every starting tag discovered while parsing webpage.
+    #           For this website, itemNumber are discovered within \<a href="..."\> and items data are located in \<p class="qa"\>
+    #  @param[in]  self The object pointer
+    #  @param[in] tag The string representation for tag (ie. 'div')
+    #  @param[in] attrs The 2-tuple list representation of tag attributes (ie. [('class','post article'),...])
+    def handle_starttag(self,tag,attrs):
+        if tag == 'a' and len(attrs)>1:
+            if attrs[1][0]=='title' and attrs[1][1]=="Permanent link to this quote.":
+		self.itemNumber = int(attrs[0][1][1:])
+                self.items[self.itemNumber]=''
+        if tag=='p' and attrs:
+            if attrs[0][1]=='qt':
+                self.itemFound=True
+
 ## @class htmlParserDtc
 # @brief Class for http://danstonchat.com/ parsing
 # @details This class describe a parser for http://danstonchat.com/ website. It extends methods from myParser class and therefore from HTMLParser class
@@ -313,38 +340,44 @@ class WebExtractor:
 	          'vdm': 'http://viedemerde.fr',
               'cnf': 'http://http://www.chucknorrisfacts.fr',
               'pbk': 'http://www.pebkac.fr/',
-              'sjn': 'http://www.suisjenormal.fr/'
+              'sjn': 'http://www.suisjenormal.fr/',
+	      'brg': 'http://bash.org/'
 	          }
         latestIterPages={'dtc': 'http://danstonchat.com/latest/@@COUNT@@.html',
                          'vdm': 'http://www.viedemerde.fr/?page=@@COUNT@@',
                          'cnf': 'http://www.chucknorrisfacts.fr/facts/?p=@@COUNT@@',
                          'pbk': 'http://www.pebkac.fr/@@COUNT@@/',
-                         'sjn': 'http://www.suisjenormal.fr/@@COUNT@@'
+                         'sjn': 'http://www.suisjenormal.fr/@@COUNT@@',
+			 'brg': 'http://bash.org/?latest&@@COUNT@@'
                         }
         searchItemsPages={'dtc': 'http://danstonchat.com/@@ID@@.html',
                          'vdm': 'http://www.viedemerde.fr/@@ID@@',
                          'cnf': '',
                          'pbk': 'http://www.pebkac.fr/pebkac/@@ID@@/',
-                         'sjn': 'http://www.suisjenormal.fr/discussion/@@ID@@'
+                         'sjn': 'http://www.suisjenormal.fr/discussion/@@ID@@',
+			 'brg': 'http://bash.org/?quote=@@ID@@'
                          }
 
         latestPages={'dtc': 1,
 	                 'vdm': 0,
                      'cnf': 1,
                      'pbk': 1,
-                     'sjn': 1
+                     'sjn': 1,
+		     'brg': 0
 	                 }
         randPages={'dtc': 'http://danstonchat.com/random.html',
                    'vdm': 'http://www.viedemerde.fr/aleatoire',
                    'cnf': 'http://www.chucknorrisfacts.fr/facts/alea',
                    'pbk': 'http://www.pebkac.fr/random/',
-                   'sjn': 'http://www.suisjenormal.fr/hasard'
+                   'sjn': 'http://www.suisjenormal.fr/hasard',
+		   'brg': 'http://bash.org/?random1'
                    }
         htmlParsers={'dtc': htmlParserDtc,
                      'vdm': htmlParserVdm,
                      'cnf': htmlParserCnf,
                      'pbk': htmlParserPbk,
-                     'sjn': htmlParserSjn
+                     'sjn': htmlParserSjn,
+		     'brg': htmlParserBashOrg
                      }
         ## @brief Store the URL of selected website main page (unused for the moment)
         self.URL=urls[website]
@@ -501,7 +534,7 @@ class App():
 	## @brief Main call for the module
 	#  @details This main method set up an option parser for command-line call and call for the right method depending on the user choice.
     def main(self):
-	    optWebArg=["dtc","vdm","cnf","pbk","sjn"]
+	    optWebArg=["dtc","vdm","cnf","pbk","sjn","brg"]
 	    optparser = OptionParser(version='%prog '+str(self.version))
 	    opt_output=OptionGroup(optparser,'Output Options',"Options for setting output behavior of the program")
 	    opt_action=OptionGroup(optparser,'Action Options',"Option for setting the behavior of the program")
